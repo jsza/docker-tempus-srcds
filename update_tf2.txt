@@ -1,4 +1,4 @@
 login anonymous
-force_install_dir ~/srcds
+force_install_dir /srv/srcds
 app_update 232250
 quit
