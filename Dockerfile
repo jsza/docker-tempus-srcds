@@ -11,6 +11,6 @@ ENV STEAMCMD $HOME/steamcmd
 RUN mkdir $STEAMCMD && wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $STEAMCMD -xvz
 
 ADD ./update_tf2.txt $STEAMCMD/update_tf2.txt
-ADD ./tf2 $STEAMCMD/run_tf2.sh
+ADD ./run_tf2.sh $STEAMCMD/run_tf2.sh
 
 ENTRYPOINT ["/home/steam/steamcmd/run_tf2.sh"]
