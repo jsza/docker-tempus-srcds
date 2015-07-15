@@ -1,8 +1,9 @@
 FROM debian:jessie
 
 RUN dpkg --add-architecture i386
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qy install --no-install-recommends python python-pip ca-certificates libpq5:i386 lib32gcc1 lib32tinfo5 lib32ncurses5 wget
-RUN adduser --gecos "" steam
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qy install --no-install-recommends python python-pip ca-certificates libpq5:i386 lib32gcc1 lib32tinfo5 lib32ncurses5 wget build-essential libffi-dev python-dev libssl-dev
+RUN pip install --upgrade pip && pip install https://github.com/jsza/getoverhere/zipball/master
+RUN adduser --uid 5000 --disabled-password --gecos "" steam
 
 USER steam
 ENV HOME /home/steam
