@@ -15,6 +15,8 @@ fi
 
 cd $TEMPUS_SM_PLUGINS_DIR
 git pull
+ln -sf plugins/*.smx $SM_PLUGINS_DIR
+ln -sf gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
 
 cd $SERVER_DIR
 goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools
