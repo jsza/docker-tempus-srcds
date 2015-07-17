@@ -4,12 +4,20 @@ SERVER_DIR="/srv/srcds"
 ADDONS_DIR="$SERVER_DIR/tf/addons"
 SM_PLUGINS_DIR="$ADDONS_DIR/sourcemod/plugins"
 TEMPUS_SM_PLUGINS_DIR="$SM_PLUGINS_DIR/tempus-sourcemod-plugins"
+CUSTOM_DIR="$SERVER_DIR/tf/custom/tempus"
+MAPS_DIR="$CUSTOM_DIR/maps"
 
 cd ~/steamcmd
 ./steamcmd.sh +runscript update_tf2.txt
 
 cd $SERVER_DIR
 goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools
+
+if [ ! -d $MAPS_DIR ]; then
+    mkdir -p $MAPS_DIR
+fi
+cd $MAPS_DIR
+~/bin/map_updater.sh
 
 if [ ! -d $TEMPUS_SM_PLUGINS_DIR ]; then
     mkdir $TEMPUS_SM_PLUGINS_DIR

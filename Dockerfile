@@ -11,8 +11,10 @@ ENV STEAMCMD $HOME/steamcmd
 
 RUN mkdir $STEAMCMD && wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $STEAMCMD -xvz
 
-ADD ./update_tf2.txt $STEAMCMD/update_tf2.txt
-ADD ./run_tf2.sh $STEAMCMD/run_tf2.sh
+COPY ./update_tf2.txt $STEAMCMD/update_tf2.txt
+COPY ./run_tf2.sh $STEAMCMD/run_tf2.sh
+COPY ./map_updater.sh $HOME/bin/map_updater.sh
+COPY ./default_level_sounds.txt $HOME/bin/default_level_sounds.txt
 
 RUN $STEAMCMD/steamcmd.sh +quit
 
