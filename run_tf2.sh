@@ -13,7 +13,7 @@ goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools
 
 if [ ! -d $TEMPUS_SM_PLUGINS_DIR ]; then
     mkdir $TEMPUS_SM_PLUGINS_DIR
-    git clone https://github.com/jsza/getoverhere.git $TEMPUS_SM_PLUGINS_DIR
+    git clone https://jsza@bitbucket.org/jsza/tempus-sourcemod-plugins.git $TEMPUS_SM_PLUGINS_DIR
 fi
 
 cd $TEMPUS_SM_PLUGINS_DIR
