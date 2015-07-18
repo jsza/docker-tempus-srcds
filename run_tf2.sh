@@ -29,7 +29,7 @@ git pull
 ln -f plugins/*.smx $SM_PLUGINS_DIR
 ln -f gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
 
-if [ ! -f "$SM_PLUGINS_DIR/updater.smx"]; then
+if [ ! -f "$SM_PLUGINS_DIR/updater.smx" ]; then
     wget "https://bitbucket.org/GoD_Tony/updater/downloads/updater.smx" -P "$SM_PLUGINS_DIR"
 fi
 
