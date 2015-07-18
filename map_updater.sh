@@ -28,7 +28,7 @@ do
         if [ ! -f $map ]
         then
                 echo "Creating $map..."
-                cp default_level_sounds.txt $map
+                cp $default $map
         fi
 done
 echo "Finished creating level sounds. Now cleaning up"
