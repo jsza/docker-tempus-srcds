@@ -21,7 +21,7 @@ do
         fi
 done
 
-default='default_level_sounds.txt'
+default='$HOME/bin/default_level_sounds.txt'
 for file in *.bsp
 do
         map="${file%.*}_level_sounds.txt"

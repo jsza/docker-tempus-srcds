@@ -29,5 +29,9 @@ git pull
 ln -sf plugins/*.smx $SM_PLUGINS_DIR
 ln -sf gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
 
+if [ ! -f "$SM_PLUGINS_DIR/updater.smx"]; then
+    wget "https://bitbucket.org/GoD_Tony/updater/downloads/updater.smx" -P "$SM_PLUGINS_DIR"
+fi
+
 cd $SERVER_DIR
 exec ./srcds_run -game tf $@
