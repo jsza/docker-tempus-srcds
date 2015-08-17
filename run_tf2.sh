@@ -17,8 +17,6 @@ goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools
 if [ ! -d $MAPS_DIR ]; then
     mkdir -p $MAPS_DIR
 fi
-cd $MAPS_DIR
-~/bin/map_updater.sh
 
 if [ ! -d $TEMPUS_SM_PLUGINS_DIR ]; then
     mkdir $TEMPUS_SM_PLUGINS_DIR
@@ -42,6 +40,12 @@ then
 #     cd "$CUSTOM_DIR/tf_disable_teleporters"
 #     git pull
 fi
+
+while [ ! -f "$MAPS_DIR/tempus_map_updater_run_once" ]
+do
+    echo "Map updater has not completed. Retrying in 10 seconds..."
+    sleep 10
+done
 
 cd $SERVER_DIR
 exec ./srcds_run -game tf $@
