@@ -7,6 +7,7 @@ TEMPUS_SM_PLUGINS_DIR="$SM_PLUGINS_DIR/disabled/tempus-sourcemod-plugins"
 CUSTOM_DIR="$SERVER_DIR/tf/custom"
 TEMPUS_CUSTOM_DIR="$CUSTOM_DIR/tempus"
 MAPS_DIR="$TEMPUS_CUSTOM_DIR/maps"
+SP_PLUGINS_DIR="$ADDONS_DIR/source-python/plugins"
 
 cd ~/steamcmd
 ./steamcmd.sh +runscript update_tf2.txt
@@ -39,6 +40,18 @@ then
 # else
 #     cd "$CUSTOM_DIR/tf_disable_teleporters"
 #     git pull
+fi
+
+if [ ! -d "$SP_PLUGINS_DIR/noshake" ]
+then
+    git clone https://bitbucket.org/Rob123/no-shake.git "$SP_PLUGINS_DIR/noshake"
+elif [ ! -d "$SP_PLUGINS_DIR/noshake/.git" ]
+then
+    rm -r "$SP_PLUGINS_DIR/noshake"
+    git clone https://bitbucket.org/Rob123/no-shake.git "$SP_PLUGINS_DIR/noshake"
+else
+    cd "$SP_PLUGINS_DIR/noshake"
+    git pull
 fi
 
 while [ ! -f "$MAPS_DIR/tempus_map_updater_run_once" ]
