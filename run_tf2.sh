@@ -12,6 +12,8 @@ SP_PLUGINS_DIR="$ADDONS_DIR/source-python/plugins"
 cd ~/steamcmd
 ./steamcmd.sh +runscript update_tf2.txt
 
+/srv/update_tempus.py
+
 cd $SERVER_DIR
 goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools
 
@@ -37,9 +39,9 @@ if [ ! -d "$CUSTOM_DIR/tf_disable_teleporters" ]
 then
     mkdir "$CUSTOM_DIR/tf_disable_teleporters"
     git clone https://bitbucket.org/tempusinc/tf_disable_teleporters.git "$CUSTOM_DIR/tf_disable_teleporters"
-# else
-#     cd "$CUSTOM_DIR/tf_disable_teleporters"
-#     git pull
+else
+    cd "$CUSTOM_DIR/tf_disable_teleporters"
+    git pull
 fi
 
 if [ ! -d "$SP_PLUGINS_DIR/noshake" ]
