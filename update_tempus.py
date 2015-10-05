@@ -128,6 +128,15 @@ def main():
             except OSError:
                 pass
             shutil.copytree(os.path.join(tSPPath, 'addons', 'source-python', d), dest)
+        for d in ['resource', 'sound']:
+            dest = os.path.join(SRCDS_PATH, d, 'source-python')
+            try:
+                shutil.rmtree(dest)
+            # path does not exist
+            except OSError:
+                pass
+            shutil.copytree(os.path.join(tSPPath, d, 'source-python'), dest)
+
         shutil.rmtree(tSPPath)
 
     if tempusFullInstall:
