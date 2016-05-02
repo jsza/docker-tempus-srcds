@@ -120,6 +120,12 @@ def main():
         shutil.rmtree(tSPPath)
     elif needSPUpdate:
         log('Updating SP...')
+        for x in ['source-python.vdf', 'source-python.so']:
+            try:
+                os.remove(os.path.join(ADDONS_PATH, x))
+            except OSError:
+                pass
+            shutil.copyfile(os.path.join(tSPPath, 'addons', 'x'))
         for d in ['bin', 'data', 'packages', 'Python3']:
             dest = os.path.join(SP_PATH, d)
             try:
