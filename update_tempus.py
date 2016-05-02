@@ -26,15 +26,6 @@ def getSPBuildFileName(version):
     else:
         raise RuntimeError('TF2 SP build for version \'{}\' not found.'.format(version))
 
-def downloadSPPatches(path, url, auth):
-    url = url + 'tempus_builds/files/sp_tempus_patches.zip'
-    fd = TemporaryFile()
-    r = requests.get(url, auth=auth, stream=True)
-    for block in r.iter_content(1024):
-        fd.write(block)
-    with ZipFile(fd, 'r') as z:
-        z.extractall(path)
-
 def main():
     SRCDS_PATH = '/srv/srcds/tf'
     ADDONS_PATH = os.path.join(SRCDS_PATH, 'addons')
@@ -106,8 +97,6 @@ def main():
         tSPPath = mkdtemp()
         with ZipFile(spfd, 'r') as z:
             z.extractall(tSPPath)
-        log('Applying SP patches...')
-        downloadSPPatches(tSPPath, url, auth)
 
     if spFullInstall:
         log('Installing SP from scratch...')
