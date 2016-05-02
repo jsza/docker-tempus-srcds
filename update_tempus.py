@@ -121,11 +121,12 @@ def main():
     elif needSPUpdate:
         log('Updating SP...')
         for x in ['source-python.vdf', 'source-python.so']:
+            dest = os.path.join(ADDONS_PATH, x)
             try:
-                os.remove(os.path.join(ADDONS_PATH, x))
+                os.remove(dest)
             except OSError:
                 pass
-            shutil.copyfile(os.path.join(tSPPath, 'addons', 'x'))
+            shutil.copyfile(os.path.join(tSPPath, 'addons', x), dest)
         for d in ['bin', 'data', 'packages', 'Python3']:
             dest = os.path.join(SP_PATH, d)
             try:
