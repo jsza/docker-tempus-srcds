@@ -1,4 +1,4 @@
-FROM jayess:tempus-base
+FROM jayess/tempus-base
 
 USER steam
 ENV HOME /home/steam
