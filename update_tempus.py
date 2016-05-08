@@ -89,14 +89,19 @@ def main():
     if spFullInstall is True or requiredSPVersion != spVersion:
         needSPUpdate = True
         spfd = TemporaryFile()
-        fileName = getSPBuildFileName(requiredSPVersion)
-        log('Fetching SP version {}: {}...'.format(requiredSPVersion, fileName))
-        r = downloadSPBuild(requiredSPVersion, fileName)
-        for block in r.iter_content(1024):
-            spfd.write(block)
-        tSPPath = mkdtemp()
-        with ZipFile(spfd, 'r') as z:
-            z.extractall(tSPPath)
+        try:
+            fileName = getSPBuildFileName(requiredSPVersion)
+            log('Fetching SP version {}: {}...'.format(requiredSPVersion, fileName))
+            r = downloadSPBuild(requiredSPVersion, fileName)
+            for block in r.iter_content(1024):
+                spfd.write(block)
+            tSPPath = mkdtemp()
+            with ZipFile(spfd, 'r') as z:
+                z.extractall(tSPPath)
+        # Could not decode JSON - build does not exist.
+        except ValueError:
+            needSPUpdate = False
+            spFullInstall = False
 
     if spFullInstall:
         log('Installing SP from scratch...')
