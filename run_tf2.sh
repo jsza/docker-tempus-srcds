@@ -63,4 +63,4 @@ do
 done
 
 cd $SERVER_DIR
-exec ./srcds_run -game tf $@
+exec ./srcds_run -game tf -debug $@

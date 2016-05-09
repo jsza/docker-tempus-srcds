@@ -1,5 +1,7 @@
 FROM jayess/tempus-base
 
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qy install gdb
+
 USER steam
 ENV HOME /home/steam
 ENV STEAMCMD $HOME/steamcmd
