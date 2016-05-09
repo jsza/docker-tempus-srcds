@@ -1,5 +1,6 @@
 FROM jayess/tempus-base
 
+USER root
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -qy install gdb
 
 USER steam
