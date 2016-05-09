@@ -66,6 +66,10 @@ def main():
     r = requests.get(url + 'tempus_builds/latest_version', auth=auth)
     latestVersion = int(r.json()['version'])
 
+    if latestVersion == 38:
+        log('Skipping update for version 38.')
+        return
+
     if not tempusFullInstall and latestVersion == tempusVersion:
         log('Already up to date.')
         return
