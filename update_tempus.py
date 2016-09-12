@@ -95,7 +95,8 @@ def main():
     auth = (cfg['username'], cfg['password'])
 
     log('Checking for updates...')
-    r = requests.get(url + 'tempus_builds/latest_version', auth=auth)
+    r = requests.get(url + 'tempus_builds/latest_version', auth=auth,
+                     headers={'Accept': 'application/json'})
     latestVersion = int(r.json()['version'])
 
     if not tempusFullInstall and latestVersion == tempusVersion:
