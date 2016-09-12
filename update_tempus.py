@@ -105,7 +105,9 @@ def main():
 
     tfd = TemporaryFile()
 
-    r = requests.get(url + 'tempus_builds/files/tempus{}.zip'.format(latestVersion), auth=auth, stream=True)
+    r = requests.get(url + 'tempus_builds/files/tempus{}.zip'.format(latestVersion),
+                     auth=auth, stream=True,
+                     headers={'Accept': 'application/json'})
     if not r.ok:
         raise RuntimeError('Failed to fetch Tempus.')
     for block in r.iter_content(1024):
@@ -129,7 +131,7 @@ def main():
         tSPPath = mkdtemp()
         with ZipFile(spfd, 'r') as z:
             z.extractall(tSPPath)
-        downloadSPPatches(tSPPath, url)
+        downloadSPPatches(tSPPath, requiredSPVersion)
 
     if spFullInstall:
         log('Installing SP from scratch...')
