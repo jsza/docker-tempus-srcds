@@ -10,12 +10,30 @@ import errno
 from zipfile import ZipFile
 from tempfile import TemporaryFile, mkdtemp
 
+class NoBuild(Exception): pass
+
 def log(s):
     print '[Tempus] {}'.format(s)
 
-def downloadSPBuild(version, fileName):
+def downloadSPBuildMirror(version):
+    url = 'https://sourcepython.tempus.xyz/tf2/sourcepython_{}.zip'.format(version)
+    response = requests.get(url, stream=True)
+    if response.status_code >= 400:
+        raise NoBuild('Could not download build at mirror: {}'.format(url))
+    log('Fetching SP version {}: {}...'.format(version, url))
+    return response
+
+def downloadSPBuild(version):
+    try:
+        fileName = getSPBuildFileName(version)
+    except ValueError:
+        return downloadSPBuildMirror(version)
     url = 'http://build.affecta.net/job/Source.Python/{}/artifact/release/{}'.format(version, fileName)
-    return requests.get(url, stream=True)
+    response = requests.get(url, stream=True)
+    if response.status_code >= 400:
+        return downloadSPBuildMirror(version)
+    log('Fetching SP version {}: {}...'.format(version, url))
+    return response
 
 def getSPBuildFileName(version):
     url = 'http://build.affecta.net/job/Source.Python/{}/api/json'.format(version)
@@ -25,6 +43,20 @@ def getSPBuildFileName(version):
             return a['fileName']
     else:
         raise RuntimeError('TF2 SP build for version \'{}\' not found.'.format(version))
+
+def downloadSPPatches(path, version):
+    url = 'https://sourcepython.tempus.xyz/tf2/patches_{}.zip'.format(version)
+    fd = TemporaryFile()
+    r = requests.get(url, stream=True)
+    if r.status_code == 404:
+        log('Skipping SP patches, not found at {}'.format(url))
+        return
+    log('Downloading SP patches...')
+    for block in r.iter_content(1024):
+        fd.write(block)
+    log('Applying SP patches...')
+    with ZipFile(fd, 'r') as z:
+        z.extractall(path)
 
 def main():
     SRCDS_PATH = '/srv/srcds/tf'
@@ -66,10 +98,6 @@ def main():
     r = requests.get(url + 'tempus_builds/latest_version', auth=auth)
     latestVersion = int(r.json()['version'])
 
-    if latestVersion == 38:
-        log('Skipping update for version 38.')
-        return
-
     if not tempusFullInstall and latestVersion == tempusVersion:
         log('Already up to date.')
         return
@@ -93,19 +121,14 @@ def main():
     if spFullInstall is True or requiredSPVersion != spVersion:
         needSPUpdate = True
         spfd = TemporaryFile()
-        try:
-            fileName = getSPBuildFileName(requiredSPVersion)
-            log('Fetching SP version {}: {}...'.format(requiredSPVersion, fileName))
-            r = downloadSPBuild(requiredSPVersion, fileName)
-            for block in r.iter_content(1024):
-                spfd.write(block)
-            tSPPath = mkdtemp()
-            with ZipFile(spfd, 'r') as z:
-                z.extractall(tSPPath)
-        # Could not decode JSON - build does not exist.
-        except ValueError:
-            needSPUpdate = False
-            spFullInstall = False
+
+        r = downloadSPBuildMirror(requiredSPVersion)
+        for block in r.iter_content(1024):
+            spfd.write(block)
+        tSPPath = mkdtemp()
+        with ZipFile(spfd, 'r') as z:
+            z.extractall(tSPPath)
+        downloadSPPatches(tSPPath, url)
 
     if spFullInstall:
         log('Installing SP from scratch...')
