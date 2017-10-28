@@ -12,7 +12,7 @@ SP_PLUGINS_DIR="$ADDONS_DIR/source-python/plugins"
 cd ~/steamcmd
 ./steamcmd.sh +runscript update_tf2.txt
 
-/srv/update_tempus.py
+/venv/bin/python /srv/update_tempus.py
 
 cd $SERVER_DIR
 /venv/bin/goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools
