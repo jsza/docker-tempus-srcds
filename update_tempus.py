@@ -44,20 +44,6 @@ def getSPBuildFileName(version):
     else:
         raise RuntimeError('TF2 SP build for version \'{}\' not found.'.format(version))
 
-def downloadSPPatches(path, version):
-    url = 'https://sourcepython.tempus.xyz/tf2/patches_{}.zip'.format(version)
-    fd = TemporaryFile()
-    r = requests.get(url, stream=True)
-    if r.status_code == 404:
-        log('Skipping SP patches, not found at {}'.format(url))
-        return
-    log('Downloading SP patches...')
-    for block in r.iter_content(1024):
-        fd.write(block)
-    log('Applying SP patches...')
-    with ZipFile(fd, 'r') as z:
-        z.extractall(path)
-
 def main():
     SRCDS_PATH = '/srv/srcds/tf'
     ADDONS_PATH = os.path.join(SRCDS_PATH, 'addons')
@@ -131,7 +117,6 @@ def main():
         tSPPath = mkdtemp()
         with ZipFile(spfd, 'r') as z:
             z.extractall(tSPPath)
-        downloadSPPatches(tSPPath, requiredSPVersion)
 
     if spFullInstall:
         log('Installing SP from scratch...')
