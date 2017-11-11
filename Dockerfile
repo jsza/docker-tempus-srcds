@@ -19,5 +19,4 @@ USER root
 
 # SRCDS is the nicest
 ENTRYPOINT ["/usr/bin/nice", "-n", "-20", \
-            "/usr/bin/ionice", "-c", "1", \
             "/usr/bin/sudo", "--user", "steam", "/home/steam/steamcmd/run_tf2.sh"]
