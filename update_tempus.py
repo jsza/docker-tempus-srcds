@@ -189,6 +189,12 @@ def main():
                 raise
         os.symlink(os.path.join(tUpdatePath, 'tempus_loader', 'tempus'),
                    tempusLibsPath)
+        subprocess.call([
+            'rsync',
+            '-r',
+            os.path.join(tUpdatePath, 'tempus_loader/'),
+            os.path.join(SP_PATH, 'plugins/tempus_loader')
+        ])
         shutil.rmtree(tTempusPath)
     log('Update complete.')
 
