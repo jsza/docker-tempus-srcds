@@ -51,6 +51,24 @@ def main():
     TEMPUS_PATH = os.path.join(
         ADDONS_PATH, 'source-python', 'plugins', 'tempus_loader')
     CFG_PATH = os.path.join(TEMPUS_PATH, 'local', 'cfg', 'api.yml')
+    if os.path.exists(CFG_PATH):
+        with open(CFG_PATH, 'rb') as f:
+            config = yaml.safe_load(f)
+            cfgUrl = config['hostname']
+            cfgDeployment = config['deployment']
+            cfgUsername = config['username']
+            cfgPassword = config['password']
+    else:
+        CFG_PATH = os.path.join(TEMPUS_PATH, 'local', 'cfg', 'tempus.yml')
+        with open(CFG_PATH, 'rb') as f:
+            config = yaml.safe_load(f)['api']
+            cfgUrl = config['url']
+            cfgDeployment = config['deployment']
+            cfgUsername = config['username']
+            cfgPassword = config['password']
+
+    if not os.path.exists(CFG_PATH):
+        print log('API CONFIGURATION MISSING')
     TEMPUS_VERSION_PATH = os.path.join(TEMPUS_PATH, 'tempus', 'tempus', 'version')
     SP_VERSION_PATH = os.path.join(
         ADDONS_PATH, 'source-python', 'packages', 'source-python', 'core',
@@ -75,10 +93,8 @@ def main():
     else:
         spFullInstall = True
 
-    with open(CFG_PATH, 'rb') as f:
-        cfg = yaml.safe_load(f)
-    url = '{}{}/'.format(cfg['hostname'], cfg['deployment'])
-    auth = (cfg['username'], cfg['password'])
+    url = '{}{}/'.format(cfgUrl, cfgDeployment)
+    auth = (cfgUsername, cfgPassword)
 
     log('Checking for updates...')
     r = requests.get(url + 'tempus_builds/latest_version', auth=auth,
