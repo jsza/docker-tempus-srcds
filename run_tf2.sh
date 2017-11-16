@@ -15,7 +15,7 @@ cd ~/steamcmd
 /venv/bin/python /srv/update_tempus.py
 
 cd $SERVER_DIR
-/venv/bin/goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools
+/venv/bin/goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools collisionhook
 
 if [ ! -d $MAPS_DIR ]; then
     mkdir -p $MAPS_DIR
