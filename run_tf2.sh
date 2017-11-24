@@ -17,6 +17,9 @@ cd ~/steamcmd
 cd $SERVER_DIR
 /venv/bin/goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools collisionhook
 
+rm -f "$SM_PLUGINS_DIR/nextmap.smx"
+rm -f "$SM_PLUGINS_DIR/basetriggers.smx"
+
 if [ ! -d $MAPS_DIR ]; then
     mkdir -p $MAPS_DIR
 fi
