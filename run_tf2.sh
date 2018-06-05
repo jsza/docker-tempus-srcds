@@ -16,7 +16,7 @@ cd ~/steamcmd
 /venv/bin/python /srv/update_tempus.py
 
 cd $SERVER_DIR
-/venv/bin/goh -afi -sc ./tf metamod sourcemod stripper tf2items accelerator steamtools collisionhook
+/venv/bin/goh --allow-full-install --skip-confirm ./tf metamod sourcemod stripper tf2items accelerator steamtools collisionhook dhooks
 
 rm -f "$SM_PLUGINS_DIR/nextmap.smx"
 rm -f "$SM_PLUGINS_DIR/basetriggers.smx"
