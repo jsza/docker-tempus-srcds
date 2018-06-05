@@ -3,7 +3,8 @@
 SERVER_DIR="/srv/srcds"
 ADDONS_DIR="$SERVER_DIR/tf/addons"
 SM_PLUGINS_DIR="$ADDONS_DIR/sourcemod/plugins"
-TEMPUS_SM_PLUGINS_DIR="$SM_PLUGINS_DIR/disabled/tempus-sourcemod-plugins"
+TEMPUS_SM_PLUGINS_REPO_DIR="$SM_PLUGINS_DIR/disabled/tempus-sourcemod-plugins"
+TEMPUS_SM_PLUGINS_DIR="$SM_PLUGINS_DIR/tempus_plugins"
 CUSTOM_DIR="$SERVER_DIR/tf/custom"
 TEMPUS_CUSTOM_DIR="$CUSTOM_DIR/tempus"
 MAPS_DIR="$TEMPUS_CUSTOM_DIR/maps"
@@ -24,15 +25,20 @@ if [ ! -d $MAPS_DIR ]; then
     mkdir -p $MAPS_DIR
 fi
 
-if [ ! -d $TEMPUS_SM_PLUGINS_DIR ]; then
-    mkdir $TEMPUS_SM_PLUGINS_DIR
-    git clone https://bitbucket.org/jsza/tempus-sourcemod-plugins.git $TEMPUS_SM_PLUGINS_DIR
+if [ ! -d $TEMPUS_SM_PLUGINS_REPO_DIR ]; then
+    mkdir $TEMPUS_SM_PLUGINS_REPO_DIR
+    git clone https://bitbucket.org/jsza/tempus-sourcemod-plugins.git $TEMPUS_SM_PLUGINS_REPO_DIR
 fi
 
-cd $TEMPUS_SM_PLUGINS_DIR
+cd $TEMPUS_SM_PLUGINS_REPO_DIR
 git pull
-ln -f plugins/*.smx $SM_PLUGINS_DIR
-ln -f gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
+ln -sf "$TEMPUS_SM_PLUGINS_REPO_DIR/plugins" "$TEMPUS_SM_PLUGINS_DIR"
+
+for filename in plugins/*.smx; do
+    rm "$SM_PLUGINS_DIR/$(filename)"
+done
+
+ln -sf gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
 
 if [ ! -f "$SM_PLUGINS_DIR/updater.smx" ]; then
     wget "https://bitbucket.org/GoD_Tony/updater/downloads/updater.smx" -P "$SM_PLUGINS_DIR"
