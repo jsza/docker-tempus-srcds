@@ -32,13 +32,13 @@ fi
 
 cd $TEMPUS_SM_PLUGINS_REPO_DIR
 git pull
-ln -sf "$TEMPUS_SM_PLUGINS_REPO_DIR/plugins" "$TEMPUS_SM_PLUGINS_DIR"
+ln --symbolic --force --no-target-directory "$TEMPUS_SM_PLUGINS_REPO_DIR/plugins/" $TEMPUS_SM_PLUGINS_DIR
 
 for filename in plugins/*.smx; do
-    rm "$SM_PLUGINS_DIR/$(filename)"
+    rm -f "$SM_PLUGINS_DIR/$(basename $filename)"
 done
 
-ln -sf gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
+ln --symbolic --force gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
 
 if [ ! -f "$SM_PLUGINS_DIR/updater.smx" ]; then
     wget "https://bitbucket.org/GoD_Tony/updater/downloads/updater.smx" -P "$SM_PLUGINS_DIR"
