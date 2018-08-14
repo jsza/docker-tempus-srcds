@@ -38,7 +38,9 @@ for filename in plugins/*.smx; do
     rm -f "$SM_PLUGINS_DIR/$(basename $filename)"
 done
 
-ln --symbolic --force gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
+if [ -d $TEMPUS_SM_PLUGINS_REPO_DIR/gamedata ]; then
+    ln --symbolic --force $TEMPUS_SM_PLUGINS_REPO_DIR/gamedata/* "$ADDONS_DIR/sourcemod/gamedata"
+fi
 
 if [ ! -f "$SM_PLUGINS_DIR/updater.smx" ]; then
     wget "https://bitbucket.org/GoD_Tony/updater/downloads/updater.smx" -P "$SM_PLUGINS_DIR"
