@@ -43,7 +43,7 @@ if [ -d $TEMPUS_SM_PLUGINS_REPO_DIR/gamedata ]; then
 fi
 
 if [ ! -f "$SM_PLUGINS_DIR/updater.smx" ]; then
-    wget "https://bitbucket.org/GoD_Tony/updater/downloads/updater.smx" -P "$SM_PLUGINS_DIR"
+    wget "https://bitbucket.org/jsza/tempus-sourcemod-plugins/downloads/updater.smx" -P "$SM_PLUGINS_DIR"
 fi
 
 if [ ! -d "$CUSTOM_DIR/tf_disable_teleporters" ]
