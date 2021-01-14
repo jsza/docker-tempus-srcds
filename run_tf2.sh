@@ -9,9 +9,14 @@ CUSTOM_DIR="$SERVER_DIR/tf/custom"
 TEMPUS_CUSTOM_DIR="$CUSTOM_DIR/tempus"
 MAPS_DIR="$TEMPUS_CUSTOM_DIR/maps"
 SP_PLUGINS_DIR="$ADDONS_DIR/source-python/plugins"
+STEAMCMD_DIR="$SERVER_DIR/_steamcmd"
 
-cd ~/steamcmd
-./steamcmd.sh +runscript update_tf2.txt
+if [ ! -d $STEAMCMD_DIR ]; then
+    cp -r ~/steamcmd $STEAMCMD_DIR
+fi
+
+cd $STEAMCMD_DIR
+./steamcmd.sh +runscript ~/steamcmd/update_tf2.txt
 
 /venv/bin/python /srv/update_tempus.py
 
